@@ -1,5 +1,4 @@
-#include "get_next_line.h"
-
+#include "get_next_line_bonus.h"
 int ft_strlen(char *str)
 {
     int i;
@@ -90,16 +89,16 @@ char    *ft_get_line(int fd,char *buffer ,ssize_t b_read, char *s)
 
 char *get_next_line(int fd)
 {
-	static char	*s_line;
+	static char	*s_line[1024];
 	char		*line;
     char        *end;
 	ssize_t		b_read;
 	char		buffer[BUFFER_SIZE + 1];
 
 	b_read = read(fd, buffer, BUFFER_SIZE); 
- 	line = ft_get_line(fd, buffer, b_read, s_line);
+ 	line = ft_get_line(fd, buffer, b_read, s_line[fd]);
     end = ft_strchar(line, '\n', b_read);
-    s_line = ft_strdup(&end, 0);
+    s_line[fd] = ft_strdup(&end, 0);
     if (end != NULL)
         *end = 0;
     else if (end == NULL && b_read == 0)
